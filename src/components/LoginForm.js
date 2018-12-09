@@ -6,11 +6,11 @@ export default class LoginForm extends Component {
 		
 		this.state = {
 			nickname:'',
-			erroe:''
+			error:''
 		};
 	}
 
-	setUser = (user, isUser) => {
+	setUser = ({user, isUser}) => {
 		console.log(user, isUser);
 		if(isUser){
 			this.setError('Username is taken')
@@ -51,7 +51,7 @@ export default class LoginForm extends Component {
 						id='nickname'
 						value={nickname}
 						onChange={this.handleChange}
-						placeHolder={'MYCoolUSername'}
+						placeHolder={'Enter your username'}
 						/>
 						<div className='error'>{error ? error:null}</div>
 						

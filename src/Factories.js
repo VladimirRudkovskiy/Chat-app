@@ -7,7 +7,7 @@ const uuidv4 = require('uuid/v4')
 		name {string}
 */
 
-const createUser = ({name = ''} = {}) => (
+const createUser = ({name = ""} = {}) => (
 	{
 		id:uuidv4(),
 		name
@@ -27,7 +27,7 @@ const createUser = ({name = ''} = {}) => (
 			sender {string}
 */
 
-const createMessage = ({message = '', sender = ''} = { }) => (
+const createMessage = ({message = "", sender = ""} = { }) => (
 	{
 		id:uuidv4(),
 		time: getTime(new Date(Date.now())),
