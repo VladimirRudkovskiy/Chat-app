@@ -6,6 +6,8 @@ const { createUser, createMessage, createChat } = require('../Factories')
 
 let connectedUsers = { }
 
+
+
 module.exports = function(socket){
 	console.log("Socket Id:" + socket.id);
 
@@ -38,6 +40,8 @@ module.exports = function(socket){
 
 
 }
+
+
 
 
 /*
