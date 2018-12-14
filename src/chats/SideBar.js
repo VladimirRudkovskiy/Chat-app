@@ -21,7 +21,7 @@ export default class SideBar extends Component{
 						className="users" 
 						ref='users' 
 						onClick={(e)=>{ (e.target === this.refs.user) && setActiveChat(null) }}>
-							COMMUNITY
+							
 						{
 						chats.map((chat)=>{
 							if(chat.name){
@@ -30,7 +30,7 @@ export default class SideBar extends Component{
 									return name !== this.props.name
 								}) || { name:"Community" }
 								const classNames = (activeChat && activeChat.id === chat.id) ? 'active' : ''
-									
+								
 								return(
 								<div 
 									key={chat.id} 

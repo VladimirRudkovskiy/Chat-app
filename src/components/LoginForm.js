@@ -15,8 +15,8 @@ export default class LoginForm extends Component {
 		if(isUser){
 			this.setError('Username is taken')
 		}else{
-			this.props.setUser(user)
 			this.setError('')
+			this.props.setUser(user)
 		}
 	}
 
@@ -51,7 +51,7 @@ export default class LoginForm extends Component {
 						id='nickname'
 						value={nickname}
 						onChange={this.handleChange}
-						placeHolder={'Enter your username'}
+						placeholder={'Enter your username'}
 						/>
 						<div className='error'>{error ? error:null}</div>
 						
