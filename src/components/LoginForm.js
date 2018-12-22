@@ -6,7 +6,8 @@ export default class LoginForm extends Component {
 		
 		this.state = {
 			nickname:'',
-			error:''
+			error:'',
+			email:''
 		};
 	}
 
@@ -25,20 +26,26 @@ export default class LoginForm extends Component {
 
 		const { socket } = this.props
 		const { nickname } = this.state
-		socket.emit(VERIFY_USER, nickname, this.setUser)
+		const { email } = this.state
+		socket.emit(VERIFY_USER, nickname, email, this.setUser)
 	}
 
 	handleChange = (e) => {
 		this.setState({nickname:e.target.value})
 
 	}
+	
+	handleChangeEmail = (e) => {
+		this.setState({email:e.target.value})
+	}
+
 
 	setError = (error) => {
 		this.setState({error})
 	}
 
 	render() {
-		const { nickname, error } = this.state
+		const { nickname, email, error } = this.state
 		return (
 			<div className='Login'>
 				<form onSubmit={this.handleSubmit} className='login-form'>
@@ -55,6 +62,20 @@ export default class LoginForm extends Component {
 						/>
 						<div className='error'>{error ? error:null}</div>
 						
+				</form>
+				<form onSubmit={this.handleSubmit} className='login-form'>
+					<label htmlFor='email'>
+						<h2>Got email?</h2>
+					</label>
+					<input
+						ref={(input)=> {this.textInput = input }}
+						type ='text'
+						id='email'
+						value={email}
+						onChange={this.handleChangeEmail}
+						placeholder={'Enter your email'}
+						/>
+				
 				</form>
 			</div>
 		);

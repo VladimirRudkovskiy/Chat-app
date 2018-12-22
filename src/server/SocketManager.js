@@ -20,8 +20,8 @@ module.exports = function(socket){
 	let sendTypingFromUser;
 
 	//Verify Username
-	socket.on(VERIFY_USER, (nickname, callback)=>{
-		if(isUser(connectedUsers, nickname)){
+	socket.on(VERIFY_USER, (nickname, email, callback)=>{
+		if(isUser(connectedUsers, nickname && email)){
 			callback({ isUser:true, user:null })
 		}else{
 			callback({ isUser:false, user:createUser({name:nickname})})

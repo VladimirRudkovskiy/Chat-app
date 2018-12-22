@@ -4,7 +4,7 @@ import './index.css';
 class App extends Component {
   render() {
     return (
-			<Layout title='Chat App Baby'/>
+			<Layout title='Chat App'/>
     );
   }
 }

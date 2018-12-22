@@ -39,7 +39,6 @@ export default class Layout extends Component {
 
 
 	render() {
-		const { title } = this.props
 		const { socket, user } = this.state
 		return(
 			<div className='container'>
