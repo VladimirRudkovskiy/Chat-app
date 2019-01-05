@@ -301,9 +301,10 @@ input,textarea{
 
 .message-container 
 .name{
-	font-size:.65em;
-	margin-top:15px;
-	text-align:left
+	font-size:.55em;
+	margin-top:5px;
+	text-align:left;
+	color:rgb(64, 56, 173)
 }
 
 .message-container 
@@ -312,7 +313,7 @@ input,textarea{
 	border-radius:5px;
 	border-top-left-radius:0;
 	box-sizing:border-box;
-	color:#b3b2ca;
+	color:#696886;
 	height:100%;
 	padding:10px 15px;
 	position:relative

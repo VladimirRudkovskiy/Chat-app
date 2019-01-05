@@ -18,7 +18,7 @@ export default class Layout extends Component {
 		this.initSocket()
 	}
 
-	initSocket = () => {
+	initSocket = () => { //initialized our socket for us
 		const socket = io(socketUrl)
 		socket.on('connect', () => {
 			console.log("Connected");
@@ -26,12 +26,12 @@ export default class Layout extends Component {
 		this.setState({ socket })
 	}
 
-	setUser = (user) => {
+	setUser = (user) => { // sets the user property in state
 		const { socket } = this.state
-		socket.emit(USER_CONNECTED, user);
+		socket.emit(USER_CONNECTED, user); // passing the user 
 		this.setState({ user })
 	}
-	logout = () => {
+	logout = () => { // sets the user property to null so we can log out
 		const { socket } = this.state
 		socket.emit(LOGOUT)
 		this.setState({ user:null })
