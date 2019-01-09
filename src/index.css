@@ -111,24 +111,6 @@ input,textarea{
 
 #side-bar 
 .users 
-.user
-.active,
-#side-bar 
-.users 
-.user:hover{
-	background:#2e2e4f;
-	height: 100px;
-}
-
-#side-bar 
-.users 
-.user:hover:not(.active){
-	cursor:pointer;
-	height:100px
-}
-
-#side-bar 
-.users 
 .user 
 .user-info{
 	margin-left:15px;

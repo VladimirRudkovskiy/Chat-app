@@ -14,7 +14,7 @@ export default class LoginForm extends Component {
 	setUser = ({user, isUser}) => {
 		console.log(user, isUser);
 		if(isUser){
-			this.setError('Username is taken')
+			this.setError('Username is taken') //if someone use same nickname 
 		}else{
 			this.setError('')
 			this.props.setUser(user)
@@ -22,25 +22,25 @@ export default class LoginForm extends Component {
 	}
 
 	handleSubmit = (e) => {
-		e.preventDefault()
+		e.preventDefault() //prevent default so it doesnt submit auto
 
 		const { socket } = this.props
 		const { nickname } = this.state
 		const { email } = this.state
-		socket.emit(VERIFY_USER, nickname, email, this.setUser)
+		socket.emit(VERIFY_USER, nickname, email, this.setUser) //emit to the server and callback function
 	}
 
-	handleChange = (e) => {
+	handleChange = (e) => { // so we can change nickname
 		this.setState({nickname:e.target.value})
 
 	}
 	
-	handleChangeEmail = (e) => {
+	handleChangeEmail = (e) => { // same thing as nickname
 		this.setState({email:e.target.value})
 	}
 
 
-	setError = (error) => {
+	setError = (error) => { //set error if someone took same nickname
 		this.setState({error})
 	}
 

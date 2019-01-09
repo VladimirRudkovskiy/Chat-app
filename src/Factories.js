@@ -1,9 +1,9 @@
-const uuidv4 = require('uuid/v4') 
+const uuidv4 = require('uuid/v4') // uuid library fot unic id for users
 
 //create user
 const createUser = ({name = "", email = email} = {}) => ( 
 	{
-		id:uuidv4(),
+		id:uuidv4(), //random id
 		name,
 		email
 	}
@@ -20,8 +20,8 @@ const createMessage = ({message = "", sender = ""} = { }) => (
 	}
 )
 
-// create chat creates chat object
-const createChat = ({messages= [], name= 'Community', users = []} ={}) => ( 
+// create chat, creates chat object
+const createChat = ({messages = [], name = 'Community', users = []} = {}) => ( 
 	{
 		id: uuidv4(),
 		name,

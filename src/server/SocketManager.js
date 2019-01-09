@@ -6,7 +6,7 @@ const { VERIFY_USER, USER_CONNECTED, USER_DISCONNECTED,
 
 const { createUser, createMessage, createChat } = require('../Factories')
 
-let connectedUsers = { }
+let connectedUsers = { } //key value with username and user id 
 
 let communityChat = createChat()
 
@@ -19,7 +19,7 @@ module.exports = function(socket){
 	let sendTypingFromUser;
 
 	//Verify Username
-	socket.on(VERIFY_USER, (nickname, email, callback)=>{
+	socket.on(VERIFY_USER, (nickname, email, callback)=>{ //callback -> this.setUser
 		if(isUser(connectedUsers, nickname && email)){
 			callback({ isUser:true, user:null })
 		}else{
@@ -110,8 +110,8 @@ function addUser(userList, user){
 
 
 function removeUser(userList, username){
-	let newList = Object.assign({}, userList)
-	delete newList[username]
+	let newList = Object.assign({}, userList) //create a list with object
+	delete newList[username] // delete the object
 	return newList
 }
 
@@ -119,6 +119,6 @@ function removeUser(userList, username){
 // Checks if the user is in list passed in.
 
 
-function isUser(userList, username){
+function isUser(userList, username){ // user list or object with username we wanna check for
   	return username in userList
 }

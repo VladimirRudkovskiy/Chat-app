@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 
 
+
 export default class SideBar extends Component{
+
+
 		
 	render(){
 		const { chats, activeChat, user, setActiveChat, logout} = this.props
@@ -33,8 +36,8 @@ export default class SideBar extends Component{
 									>
 									<div className="user-photo">{user.name[0].toUpperCase()}</div>
 									<div className="user-info">
-										<div className="name">{user.name}</div>
-										{lastMessage && <div className="last-message">{lastMessage.message}</div>}
+										<div className="name">{user.name}
+										</div>
 									</div>
 								
 								</div>
