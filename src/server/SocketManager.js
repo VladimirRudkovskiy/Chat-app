@@ -2,7 +2,7 @@ const io = require('./index.js').io
 
 const { VERIFY_USER, USER_CONNECTED, USER_DISCONNECTED, 
 		LOGOUT, COMMUNITY_CHAT, MESSAGE_RECIEVED, MESSAGE_SENT,
-		TYPING  } = require('../Events')
+		TYPING, PRIVATE_MESSAGE  } = require('../Events')
 
 const { createUser, createMessage, createChat } = require('../Factories')
 
@@ -23,12 +23,13 @@ module.exports = function(socket){
 		if(isUser(connectedUsers, nickname && email)){
 			callback({ isUser:true, user:null })
 		}else{
-			callback({ isUser:false, user:createUser({name:nickname, email:email})})
+			callback({ isUser:false, user:createUser({name:nickname, email:email, socketId:socket.id})})
 		}
 	})
 
 	//User Connects with username
 	socket.on(USER_CONNECTED, (user)=>{
+		user.socketId = socket.id
 		connectedUsers = addUser(connectedUsers, user)
 		socket.user = user
 
@@ -70,6 +71,15 @@ module.exports = function(socket){
 
 	socket.on(TYPING, ({chatId, isTyping})=>{
 		sendTypingFromUser(chatId, isTyping)
+	})
+
+	socket.on(PRIVATE_MESSAGE, ({reciever, sender})=> {
+		if(reciever in connectedUsers){
+			const newChat = createChat({ name: `${reciever}&${sender}`, users:[reciever, sender]}) // creating a new chat with new users
+			const recieverSocket = connectedUsers[reciever.socketId] // send to persen who request to create a privat chat
+			socket.to(recieverSocket).emit(PRIVATE_MESSAGE, newChat) // send a event to socket
+			socket.emit(PRIVATE_MESSAGE, newChat) //emit privat message and send new chat
+		}
 	})
 
 }

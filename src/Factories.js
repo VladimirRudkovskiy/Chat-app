@@ -1,11 +1,12 @@
 const uuidv4 = require('uuid/v4') // uuid library fot unic id for users
 
 //create user
-const createUser = ({name = "", email = email} = {}) => ( 
+const createUser = ({name = "", email = email, socketId = null} = {}) => ( 
 	{
 		id:uuidv4(), //random id
 		name,
-		email
+		email,
+		socketId
 	}
 )
 
