@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import SideBar from '../components/sidebar/SideBar'
 import { COMMUNITY_CHAT, MESSAGE_SENT, MESSAGE_RECIEVED, 
-	TYPING, PRIVATE_MESSAGE, USER_CONNECTED, USER_DISCONECTED } from '../Events'
+				TYPING, PRIVATE_MESSAGE, USER_CONNECTED, USER_DISCONECTED,
+				NEW_CHAT_USER } from '../Events'
 import ChatHeading from './ChatHeading'
 import Messages from '../components/messages/Messages'
 import MessageInput from '../components/messages/MessageInput'
-import { values } from 'lodash'
+import { values, difference, differenceBy } from 'lodash'
 
 export default class ChatContainer extends Component {
 	constructor(props) {
@@ -25,14 +26,15 @@ export default class ChatContainer extends Component {
 
 	componentWillUnmount(){ //to not set state when user logs out
 		const { socket } = this.props
+		//not call these on accident
 		socket.off( PRIVATE_MESSAGE )
 		socket.off( USER_CONNECTED )
 		socket.off( USER_DISCONECTED )
+		socket.off(NEW_CHAT_USER)
 
 	}
 
 	initSocket(socket) {
-		const { user } = this.props
 		socket.emit(COMMUNITY_CHAT, this.resetChat)
 		socket.on(PRIVATE_MESSAGE, this.addChat)
 		socket.on('connect', ()=> {
@@ -42,8 +44,11 @@ export default class ChatContainer extends Component {
 			this.setState({ users:values(users) })
 		})
 		socket.on(USER_DISCONECTED, (users)=>{
+			const removedUsers = differenceBy( this.state.users, values(users), 'id')//gets all the values of the object
+			this.removeUsersFromChat(removedUsers)
 			this.setState({ users:values(users) })
 		})
+		socket.on(NEW_CHAT_USER, this.addUserToChat)
 	}
 
 	sendOpenPrivateMessage = (reciever) => { 
@@ -51,11 +56,28 @@ export default class ChatContainer extends Component {
 		const { activeChat } = this.state
 		socket.emit(PRIVATE_MESSAGE, {reciever, sender:user.name, activeChat})
 	}
+	addUserToChat = ({ chatId, newUser }) => {
+		const { chats } = this.state
+		const newChats = chats.map( chat => {
+			if(chat.id === chatId){
+				return Object.assign({}, chat, { users: [ ...chat.users, newUser ] })//gets all users and puts them into array
+			}
+			return chat
+		})
+		this.setState({ chats:newChats})
+	}
+	
+	removeUsersFromChat = removedUsers => {
+		const { chats } = this.state
+		const newChats = chats.map( chat => {
+			let newUsers = difference( chat.users, removedUsers.map( u => u.name)) //array of names of removed users
+				return Object.assign({}, chat, { users: newUsers})
+		})
+		this.setState({ chats: newChats })
+	}
 
 
 	//	Reset the chat back to only the chat passed in.
-
-
 	resetChat = (chat)=>{
 		return this.addChat(chat, true)
 	}

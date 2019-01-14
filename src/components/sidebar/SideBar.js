@@ -7,8 +7,9 @@ import { createChatNameFromUsers } from '../../Factories'
 
 export default class SideBar extends Component{
 	static type = {
-		CHATS:"chats",
-		USERS:"users"
+				USERS:"users",
+				CHATS:"chats"
+
 	}
 	constructor(props) {
 		super(props)
@@ -82,7 +83,7 @@ export default class SideBar extends Component{
 										key = { chat.id }
 										name = { chat.isCommunity ? chat.name : createChatNameFromUsers(chat.users, user.name) }
 										lastMessage = { get(last(chat.messages), 'message', '') }
-										active = { activeChat.id == chat.id }
+										active = { activeChat.id === chat.id }
 										onClick = { () => { this.props.setActiveChat(chat) } }
 									/>
 							)
@@ -91,12 +92,12 @@ export default class SideBar extends Component{
 							return null
 						})			
 						:
-							differenceBy(users, [user], 'name').map((otherUser) => {
+							differenceBy(users, [user], 'name').map((user) => {
 								return(
 									<SideBarOption
-									key = {otherUser.id}
-									name = { otherUser.name }
-									onClick = { () => { this.addChatForUser( otherUser.name )} }
+									key = {user.id}
+									name = { user.name }
+									onClick = { () => { this.addChatForUser( user.name )} }
 									/>
 								)
 							})
