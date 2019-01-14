@@ -22,16 +22,23 @@ const createMessage = ({message = "", sender = ""} = { }) => (
 )
 
 // create chat, creates chat object
-const createChat = ({messages = [], name = 'Community', users = []} = {}) => ( 
+const createChat = ({messages = [], name = 'Community', users = [], isCommunity = false} = {}) => ( 
 	{
 		id: uuidv4(),
-		name,
+		name:isCommunity ? "Community" : createChatNameFromUsers(users),
 		messages,
 		users,
-		typingUsers:[]
+		typingUsers:[],
+		isCommunity
 	}
 )
 
+// return string users names concatenated by a '&' or 'Empty Chat' if no users
+const createChatNameFromUsers = (users, excludeUser = "") => {
+	return users.filter(u => u !== excludeUser).join(' & ') || "Epty Users"
+}
+
+ 
 // return a string represented in 24hr time
 const getTime = (date) => {
 	return `${date.getHours()}:${('0'+date.getMinutes()).slice(-2)}`
@@ -40,5 +47,6 @@ const getTime = (date) => {
 module.exports = {
 	createMessage,
 	createChat,
-	createUser
+	createUser,
+	createChatNameFromUsers
 }

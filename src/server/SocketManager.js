@@ -8,7 +8,7 @@ const { createUser, createMessage, createChat } = require('../Factories')
 
 let connectedUsers = { } //key value with username and user id 
 
-let communityChat = createChat()
+let communityChat = createChat( {isCommunity:true} ) //to set a name
 
 module.exports = function(socket){
 					
@@ -73,12 +73,17 @@ module.exports = function(socket){
 		sendTypingFromUser(chatId, isTyping)
 	})
 
-	socket.on(PRIVATE_MESSAGE, ({reciever, sender})=> {
+	socket.on(PRIVATE_MESSAGE, ({reciever, sender, activeChat})=> {
 		if(reciever in connectedUsers){
+			const recieverSocket = connectedUsers[reciever].socketId // send to persen who request to create a privat chat
+			if( activeChat == null || activeChat.id === communityChat.id){
+			
 			const newChat = createChat({ name: `${reciever}&${sender}`, users:[reciever, sender]}) // creating a new chat with new users
-			const recieverSocket = connectedUsers[reciever.socketId] // send to persen who request to create a privat chat
 			socket.to(recieverSocket).emit(PRIVATE_MESSAGE, newChat) // send a event to socket
 			socket.emit(PRIVATE_MESSAGE, newChat) //emit privat message and send new chat
+			}else{
+				socket.to( recieverSocket).emit(PRIVATE_MESSAGE, activeChat) // add a new user to the private chat
+			}
 		}
 	})
 
